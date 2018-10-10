@@ -34,16 +34,16 @@ ENV PYPICLOUD_VERSION=1.0.9 \
     PYPI_LDAP_ADMIN_DNS=
 
 # Installing uwsgi and pypicloud in same pip command fails for some reason.
-RUN DEBIAN_FRONTEND=noninteractive \
-    apt-get update && \
-    apt-get install --no-install-recommends -y --force-yes -q \
-        build-essential libldap2-dev libldap-2.4 libsasl2-dev libsasl2-2 && \
-    pip install --no-cache-dir uwsgi && \
-    pip install --no-cache-dir pypicloud[ldap]==$PYPICLOUD_VERSION && \
-    mkdir -p /etc/confd/conf.d /etc/confd/templates /var/lib/pypicloud/packages && \
-    apt-get purge -y build-essential libldap2-dev libsasl2-dev && \
-    apt-get clean && \
-    rm -rf /var/lib/apt/lists/*
+RUN apt-get update -qq \
+  && DEBIAN_FRONTEND=noninteractive apt-get install -qy python3-pip \
+     python3-dev libldap2-dev libsasl2-dev libmysqlclient-dev libffi-dev libssl-dev \
+  && pip3 install pypicloud[all_plugins]==$PYPICLOUD_VERSION requests uwsgi \
+     pastescript mysqlclient psycopg2-binary \
+  # Create the pypicloud user
+  && groupadd -r pypicloud \
+  && useradd -r -g pypicloud -d /var/lib/pypicloud -m pypicloud \
+  # Make sure this directory exists for the baseimage init
+  && mkdir -p /etc/my_init.d
 
 COPY config.ini.tmpl /etc/confd/templates/config.ini.tmpl
 COPY config.ini.toml /etc/confd/conf.d/config.ini.toml
