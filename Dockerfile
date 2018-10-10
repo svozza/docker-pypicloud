@@ -2,7 +2,7 @@ FROM python:2.7
 
 # Default credentials: admin/secret
 # Use ppc-gen-password to generate new value.
-ENV PYPICLOUD_VERSION=1.0.5 \
+ENV PYPICLOUD_VERSION=1.0.9 \
     CONFD_VERSION=0.16.0 \
     PYPI_ADMIN_PASSWORD='$6$rounds=704055$kq8HTiZC50zoffwq$T335/H9UxRegwAxcuTUggt.ip2CBpP18wTxOAGpK8DLBZ3jC2yVklFQxRtOd5tHqmzaxDIuq0VUJb/lzaLhNW0' \
     PYPI_DB_URL=sqlite:////var/lib/pypicloud/db.sqlite \
