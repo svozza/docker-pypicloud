@@ -1,4 +1,5 @@
-FROM python:2.7
+FROM phusion/baseimage:0.10.0
+MAINTAINER Steven Arcangeli <stevearc@stevearc.com>
 
 # Default credentials: admin/secret
 # Use ppc-gen-password to generate new value.
@@ -15,8 +16,6 @@ ENV PYPICLOUD_VERSION=1.0.9 \
     PYPI_STORAGE=file \
     PYPI_STORAGE_DIR=/var/lib/pypicloud/packages \
     PYPI_STORAGE_BUCKET=changeme \
-    AWS_ACCESS_KEY_ID=changeme \
-    AWS_SECRET_ACCESS_KEY=changeme \
     PYPI_AUTH=config \
     PYPI_DEFAULT_READ=authenticated \
     PYPI_CACHE_UPDATE=authenticated \
